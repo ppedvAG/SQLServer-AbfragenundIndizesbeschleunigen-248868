@@ -22,6 +22,27 @@ Seite muss in der Regel einen ganzen DS  enthalten  (bei fixen Längen)
 
 jeder nicht genutze Patz in der Seite ist verlust auf HDD und RAM
 
+/*
+
+Seite hat 8192 bytes
+1 DS muss in Seite passen (hier zählen nur die Längen fixen Datentypen)
+1DS mit fixen Längen muss <) 8060 sein
+Die Nutzlast der Seite = 8072 bytes
+Maximala Anzahl der DS pro Seite = 700
+
+--Blöcke sind 8 Seiten am Stück
+--Sperren
+
+jeder nicht genutzte Patz in der Seite ist Verlust auf HDD und RAM
+
+!! SQL Server holt immer komplette Seiten und Blöcke 1:1 in Speicher - ungeachtet wie hoch die Auslastung sein sollte
+
+
+8 zusammenhängende Seiten werden Block genannt
+
+engl: Page / Extent
+*/
+
 */
 
 create table t2 (id int, spx varchar(4100), spy char(4100))
@@ -30,10 +51,6 @@ create table t2 (id int, spx varchar(4100), spy char(4100))
 
 
 
-
-
---Blöcke sind 8 Seiten am Stück
---Sperren
 
 
 
