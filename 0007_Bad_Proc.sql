@@ -22,43 +22,43 @@ select * from customers where customerid like @kdid +'%'
 
 exec gpSucheKunden 'ALFKI'
 
+--das ist schlelt, aber warum??
 
+exec gp_SucheKunden ''
 
+--weiteres Beispiel
 
+set statistics io, time on
 
-create or alter proc gpdemo2 @par1 int, @par2 int, @par3 int output --auch input
+select * from ku where id < 900000
+--bei 10750 würde SQL Se3rver zu einem Table Scan übergehen
+--aber nicht bei einer Prozedur (Ausnahmen: IQP)
+create proc gpDemo1 @zahl int
 as
-select @par1+@par2
-set @par3 = @par1+@par2
+select * from ku where id < @zahl;
 GO
 
-exec gpdemo2 10,20, 100
-
-
-declare @var as int
-
-exec gpdemo2 10,20, @par3=@var output ---@var=@par3
-
-select @var
-
-select * from orders where freight < @var
-
-
---thema #t
-
-create or alter proc gpdemo3 @par int
+--besser so (Bsp)
+create proc gpDemo1 @zahl int
 as
-select * into ##result from orders where freight < @par
+IF @zahl < 10750
+exec gpSuchekundenwenige
+else
+exec gpKundenviele @par
+select * from ku where id < @zahl;
+GO
+
+--create procedure gpDemo with recompile
+create or alter proc gpDemo1 @zahl int --with recompile
+as
+select * from ku where id < @zahl;
+GO
 
 
-exec gpdemo3 10
-
-select * from ##result
+exec gpDemo1 100000
 
 
 
-
---Diese Prozedur ist schlecht...
 
 
 
